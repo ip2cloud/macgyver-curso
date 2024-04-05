@@ -15,6 +15,10 @@ services:
     - CONFIG_SESSION_PHONE_CLIENT=EvolutionAPI
     - CONFIG_SESSION_PHONE_NAME=Chrome
     - WEBHOOK_GLOBAL_URL=''
+    depends_on:
+    - mongodb
+    expose:
+    - 8080
 
   mongodb:
     container_name: mongodb
