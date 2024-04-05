@@ -1,0 +1,66 @@
+version: '3.8'
+
+volumes:
+  db-data:
+
+services:
+  typebot-db:
+    image: postgres:14-alpine
+    restart: always
+    volumes:
+    - db-data:/var/lib/postgresql/data
+    environment:
+    - POSTGRES_DB=typebot
+    - POSTGRES_PASSWORD=typebot
+
+  typebot-builder:
+    image: baptistearno/typebot-builder:latest
+    restart: always
+    depends_on:
+    - typebot-db
+    ports:
+    - '8181:3000'
+    extra_hosts:
+    - 'host.docker.internal:host-gateway'
+    environment:
+    - ENCRYPTION_SECRET=do+UspMmB/rewbX2K/rskFmtgGSSZ8Ta
+    - DATABASE_URL=postgresql://postgres:typebot@typebot-db:5432/typebot
+    - NEXTAUTH_URL=https://typebot.xxxxxx.com.br
+    - NEXT_PUBLIC_VIEWER_URL=https://bot.xxxxxxx.com.br
+    - ADMIN_EMAIL=
+    - S3_ACCESS_KEY=
+    - S3_SECRET_KEY=
+    - S3_BUCKET=typebot
+    - S3_PORT=900080
+    - S3_ENDPOINT=https://s3.xxxxx.com.br/
+    - S3_SSL=true
+    - SMTP_AUTH_DISABLED=false
+    - SMTP_HOST=email-smtp.us-east-1.amazonaws.com
+    - SMTP_PASSWORD=
+    - SMTP_PORT=2587
+    - SMTP_SECURE=true
+    - SMTP_USERNAME=
+
+  typebot-viewer:
+    image: baptistearno/typebot-viewer:latest
+    restart: always
+    ports:
+    - '8182:3001'
+    environment:
+    - ENCRYPTION_SECRET=do+UspMmB/rewbX2K/rskFmtgGSSZ8Ta
+    - DATABASE_URL=postgresql://postgres:typebot@typebot-db:5432/typebot
+    - NEXTAUTH_URL=https://typebot.xxxx.com.br
+    - NEXT_PUBLIC_VIEWER_URL=https://bot.xxxxxx.com.br
+    - ADMIN_EMAIL=
+    - S3_ACCESS_KEY=
+    - S3_SECRET_KEY=
+    - S3_BUCKET=typebot
+    - S3_PORT=900080
+    - S3_ENDPOINT=https://s3.xxxxxx.com.br/
+    - S3_SSL=true
+    - SMTP_AUTH_DISABLED=false
+    - SMTP_HOST=
+    - SMTP_PASSWORD=
+    - SMTP_PORT=2587
+    - SMTP_SECURE=true
+    - SMTP_USERNAME=

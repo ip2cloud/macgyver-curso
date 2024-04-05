@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  evolution-api:
+    image: asabocinski/evolutionapi:latest
+    ports:
+    - "8080:8080"
+    environment:
+    - MONGO_URI=mongodb://mongodb:27017/evolutionapi # Altere conforme sua configuração do MongoDB
+    - MONGO_DB=evolutionapi
+    - AUTHENTICATION_TYPE=apikey
+    - AUTHENTICATION_API_KEY=
+    - LANGUAGE=pt-BR
+    - QRCODE_LIMIT=30
+    - QRCODE_COLOR=#198754
+    - CONFIG_SESSION_PHONE_CLIENT=EvolutionAPI
+    - CONFIG_SESSION_PHONE_NAME=Chrome
+    - WEBHOOK_GLOBAL_URL=''
+
+  mongodb:
+    image: mongo
+    volumes:
+    - ./data_mongo/db:/data/db

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+    - "5678:5678"
+    environment:
+    - N8N_PORT=5678
+    - N8N_PROTOCOL=http
+    - POSTGRESDB_HOST=postgres
+    - POSTGRESDB_PORT=5432
+    - POSTGRESDB_DATABASE=n8n
+    - POSTGRESDB_USER=n8n
+    - POSTGRESDB_PASSWORD=n8n
+    volumes:
+    - ./n8n:/root/.n8n # Altere o caminho do volume, se necessário
+
+  postgres:
+    image: postgres:alpine
+    environment:
+    - POSTGRES_DB=n8n
+    - POSTGRES_USER=n8n
+    - POSTGRES_PASSWORD=n8n
+    volumes:
+    - ./data_postgres:/var/lib/postgresql/data # Altere o caminho do volume, se necessário
+
