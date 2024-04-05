@@ -17,6 +17,19 @@ services:
     - WEBHOOK_GLOBAL_URL=''
 
   mongodb:
+    container_name: mongodb
     image: mongo
+    restart: on-failure
+    ports:
+    - 27017:27017
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=root
+    - MONGO_INITDB_ROOT_PASSWORD=ElWcwtOKjza2U9pPHU8fu
+    - PUID=1000
+    - PGID=1000
+
     volumes:
-    - ./data_mongo/db:/data/db
+    - ./evolution_mongodb_data:/data/db
+    - ./evolution_mongodb_configdb:/data/configdb
+    expose:
+    - 27017
